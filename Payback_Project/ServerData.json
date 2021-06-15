@@ -1,0 +1,55 @@
+{
+    "tiles": [
+        {
+            "name": "image",
+            "headline": "Tim Cook",
+            "subline": "CEO of Apple Inc.",
+            "data": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tim_Cook_2009_cropped.jpg/220px-Tim_Cook_2009_cropped.jpg",
+            "score": 1
+        },
+        {
+            "name": "video",
+            "headline": "Cartoon",
+            "data": "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
+            
+            "score": 10
+        },
+        {
+            "name": "website",
+            "headline": "PAYBACK",
+            "subline": "Coupons, Payment and more.",
+            "data": "https://www.payback.de",
+            "score": 3
+        },
+        {
+            "name": "image",
+            "headline": "Swift",
+            "subline": "An advanced programming language",
+            "data": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Swift_logo_with_text.svg/200px-Swift_logo_with_text.svg.png",
+            "score": 50
+        },
+        {
+            "name": "website",
+            "headline": "Google",
+            "data": "https://www.google.de",
+            "score": 30
+        },
+        {
+            "name": "image",
+            "headline": "iPhone",
+            "data": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/IPhone_11_Pro_Max_Midnight_Green.svg/150px-IPhone_11_Pro_Max_Midnight_Green.svg.png",
+            "score": 70
+        },
+        {
+            "name": "website",
+            "headline": "Wikipedia",
+            "data": "https://www.wikimedia.org",
+            "score": 4
+        },
+        {
+            "name": "shopping_list",
+            "headline": "Shopping List",
+            "score": 23
+        }
+    ]
+}
