@@ -12,6 +12,8 @@ import LinkPresentation
 class FeedWebsiteCell: UITableViewCell, BaseTableViewCell {
     
     
+    // Declared properties
+    
     let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -41,10 +43,6 @@ class FeedWebsiteCell: UITableViewCell, BaseTableViewCell {
         return label
     }()
     
-    
-    var sublineLabel : UILabel?
-    private var activityIndicator = UIActivityIndicatorView()
-    
     private var websitePreview : LPLinkView = {
         let wp = LPLinkView()
         wp.translatesAutoresizingMaskIntoConstraints = false
@@ -59,19 +57,22 @@ class FeedWebsiteCell: UITableViewCell, BaseTableViewCell {
         return cv
     }()
     
+    var sublineLabel : UILabel?
+    private var activityIndicator : UIActivityIndicatorView = {
+        var indicator = UIActivityIndicatorView(style: .large)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
     var provider = LPMetadataProvider()
     private var onRefresh: (() -> Void)?
-    
-    func refresh(_ handler: @escaping () -> Void) {
-        self.onRefresh = handler
-    }
     
     var item : FeedViewModelItem? {
         didSet {
             guard let item = item as? FeedViewModelWebsiteItem else {
                 return
             }
-            websitePreview.isHidden = true
             
             headlineLabel.text = item.headline
             
@@ -83,10 +84,81 @@ class FeedWebsiteCell: UITableViewCell, BaseTableViewCell {
             if let subline = item.subline {
                 addSublineLabel(subline: subline)
             }
-            
-            
         }
     }
+    
+    
+    // initializer and helper functions
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .default, reuseIdentifier: reuseIdentifier)
+        
+        setupViews()
+    }
+    
+    
+    func setupViews() {
+        contentView.addSubview(stackView)
+        
+        let bottomConstraint = stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+        bottomConstraint.priority = UILayoutPriority(749)
+        bottomConstraint.isActive = true
+        
+        
+        stackView.addArrangedSubview(headlineLabel)
+        stackView.addArrangedSubview(containerView)
+        containerView.addSubview(websitePreview)
+        containerView.addSubview(self.activityIndicator)
+        
+        NSLayoutConstraint.activate([
+            stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20),
+            bottomConstraint,
+            
+            containerView.widthAnchor.constraint(equalTo: stackView.safeAreaLayoutGuide.widthAnchor, constant: -50),
+            containerView.heightAnchor.constraint(equalToConstant: 100),
+            
+            websitePreview.topAnchor.constraint(equalTo: containerView.topAnchor),
+            websitePreview.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            websitePreview.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            websitePreview.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            
+            
+            headlineLabel.heightAnchor.constraint(equalToConstant: 25),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+        ])
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    static var nib: UINib {
+        return UINib(nibName: identifier, bundle: nil)
+    }
+    
+    static var identifier: String {
+        return String(describing: self)
+    }
+    
+    override func prepareForReuse() {
+        websitePreview.isHidden = true
+        provider.cancel()
+        websitePreview.metadata = LPLinkMetadata()
+        
+        sublineLabel?.removeFromSuperview()
+        sublineLabel = nil
+    }
+    
+    
+    func refresh(_ handler: @escaping () -> Void) {
+        self.onRefresh = handler
+    }
+    
+    
+    // adding preview when viewmodel is set
     
     func addPreview(url: URL){
         provider = LPMetadataProvider()
@@ -107,7 +179,7 @@ class FeedWebsiteCell: UITableViewCell, BaseTableViewCell {
         }
     }
     
-    
+    // adding sublineLabel if required
     
     func addSublineLabel(subline: String) {
         
@@ -123,74 +195,8 @@ class FeedWebsiteCell: UITableViewCell, BaseTableViewCell {
         else {
             sublineLabel?.text = subline
         }
-        //layoutIfNeeded()
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        
-        contentView.addSubview(stackView)
-        stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
-        stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
-        stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
-        let bottomConstraint = stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
-        bottomConstraint.priority = UILayoutPriority(749)
-        bottomConstraint.isActive = true
-        
-        
-        stackView.addArrangedSubview(headlineLabel)
-        stackView.addArrangedSubview(containerView)
-        containerView.addSubview(websitePreview)
-        
-        NSLayoutConstraint.activate([
-            containerView.widthAnchor.constraint(equalTo: stackView.safeAreaLayoutGuide.widthAnchor, constant: -50),
-            containerView.heightAnchor.constraint(equalToConstant: 100),
-            
-            websitePreview.topAnchor.constraint(equalTo: containerView.topAnchor),
-            websitePreview.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            websitePreview.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            websitePreview.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            
-            
-            headlineLabel.heightAnchor.constraint(equalToConstant: 25)
-        ])
-        
-        self.activityIndicator = UIActivityIndicatorView(style: .large)
-        self.activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(self.activityIndicator)
-        NSLayoutConstraint.activate([
-            activityIndicator.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
-        ])
-        self.activityIndicator.hidesWhenStopped = true
-    }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        //contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20))
-    }
-    
-    static var nib: UINib {
-        return UINib(nibName: identifier, bundle: nil)
-    }
-    
-    static var identifier: String {
-        return String(describing: self)
-    }
-    
-    override func prepareForReuse() {
-        //TODO: [known issue] cell shows url of reused cell
-
-        provider.cancel()
-        websitePreview.metadata = LPLinkMetadata()
-        
-        sublineLabel?.removeFromSuperview()
-        sublineLabel = nil
-    }
     
 }

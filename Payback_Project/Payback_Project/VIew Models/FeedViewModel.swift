@@ -59,8 +59,6 @@ class FeedViewModel: NSObject {
                                                   score: feed.score,
                                                   data: feed.data!)
                 items.append(vm)
-//            default:
-//                print("Don't append for now")
             }
         }
         

@@ -56,6 +56,7 @@ class FeedCache : NSObject, NSDiscardableContent, FeedServiceProtocol {
     func saveFeed(results: Feed) {
         print("Saving to cache")
         cache.setObject(results, forKey: Keys.feed as NSString)
+        nextHandler?.saveFeed(results: results)
     }
 
 }
