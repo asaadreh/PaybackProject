@@ -10,6 +10,5 @@ import UIKit
 
 protocol BaseTableViewCell: UITableViewCell {
     var item: FeedViewModelItem? { get set }
-    
     func refresh(_ handler: @escaping () -> Void)
 }

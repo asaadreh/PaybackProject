@@ -25,9 +25,10 @@ class MainCoordinator : Coordinator {
     
     func start() {
         let viewModel = FeedViewModel(coordinator: self)
-        let viewModelWithService = FeedViewModel(coordinator: self, service: service)
+        //let viewModelWithService = FeedViewModel(coordinator: self, service: service)
         
         let vc = FeedViewController(viewModel: viewModel)
+        
         //vc.coordinator = self
         navigationController.pushViewController(vc, animated: false)
     }

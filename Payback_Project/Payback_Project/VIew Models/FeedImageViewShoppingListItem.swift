@@ -8,23 +8,16 @@
 import Foundation
 
 class FeedViewModelShoppingListItem: FeedViewModelItem {
-    var subline: String?
     
-    func refresh(_ handler: @escaping () -> Void) {
+    var subline: String?
+    var coordinator: MainCoordinator?
+    var headline: String
+    var score: Int
+    var shoppingList : [String]?
+    
+    lazy var selected: (FeedViewModelItem) -> Void = {item in
         
     }
-    
-    var coordinator: MainCoordinator?
-    
-    var headline: String
-    
-    var score: Int
-    
-    lazy var selected: (FeedViewModelItem) -> Void = {item in 
-        print("Selected")
-    }
-    
-    var shoppingList : [String]
     
     
     var cellIdentifier: String {
@@ -34,8 +27,7 @@ class FeedViewModelShoppingListItem: FeedViewModelItem {
     init(headline: String, score: Int) {
         self.headline = headline
         self.score = score
-        
-        // TODO: Make this list persist
-        self.shoppingList = [String]()
     }
+    
+    func refresh(_ handler: @escaping () -> Void) {}
 }

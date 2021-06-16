@@ -6,20 +6,20 @@
 //
 
 import Foundation
+import LinkPresentation
 
 class FeedViewModelWebsiteItem: FeedViewModelItem {
+    
     var refresh: (() -> Void)?
-    
     var coordinator: MainCoordinator?
-    
     var headline: String
-    
     var score: Int
     var data: String
     var subline: String?
+    var meta : LPLinkMetadata?
     
     lazy var selected: (FeedViewModelItem) -> Void = { item in
-        print("Selected")
+        
     }
     
     var cellIdentifier: String {

@@ -11,20 +11,25 @@ class FeedViewController: UIViewController, FeedViewModelDelagate {
     
     func feedfetched() {
         DispatchQueue.main.async {
+            //self.activityIndicator.stopAnimating()
             self.tableView.reloadData()
         }
-        
     }
     
-
-    var tableView : UITableView = {
+    private var tableView : UITableView = {
         let tv = UITableView()
         tv.separatorStyle = .none
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     }()
     
-    //weak var coordinator : MainCoordinator?
+    private var activityIndicator : UIActivityIndicatorView = {
+        var indicator = UIActivityIndicatorView(style: .large)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
     fileprivate var viewModel : FeedViewModel {
         didSet {
             tableView.reloadData()
@@ -46,8 +51,14 @@ class FeedViewController: UIViewController, FeedViewModelDelagate {
         viewModel.feedViewModelDelegate = self
         
         self.title = "PAYBACK"
-        //view.backgroundColor = AppColors.backgroundColor
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(feedfetched), name: .feedFetched, object: nil)
         setUpViews()
+        setupTableView()
+    }
+    
+    func setupTableView() {
+        
         tableView.dataSource = viewModel
         tableView.delegate = viewModel
         tableView.keyboardDismissMode = .onDrag
@@ -57,23 +68,23 @@ class FeedViewController: UIViewController, FeedViewModelDelagate {
         tableView.register(FeedWebsiteCell.self, forCellReuseIdentifier: FeedWebsiteCell.identifier)
         tableView.register(FeedVideoTableViewCell.self, forCellReuseIdentifier: FeedVideoTableViewCell.identifier)
         tableView.register(FeedShoppingListCell.self, forCellReuseIdentifier: FeedShoppingListCell.identifier)
-        
-//        tableView.register(FeedTableViewCellWebsiteItem.nib, forCellReuseIdentifier: FeedTableViewCellWebsiteItem.identifier)
-//        tableView.register(FeedTableViewCellVideoItem.nib, forCellReuseIdentifier: FeedTableViewCellVideoItem.identifier)
-//        tableView.register(FeedTableViewCellShoppingListItem.nib, forCellReuseIdentifier: FeedTableViewCellShoppingListItem.identifier)
     }
     
     func setUpViews() {
         view.addSubview(tableView)
+        view.addSubview(activityIndicator)
         
         NSLayoutConstraint.activate([tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                                      tableView.topAnchor.constraint(equalTo: view.topAnchor),
-                                     tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
+                                     tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                                     activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                                     activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
         
+        //activityIndicator.startAnimating()
         
     }
-
-
+    
+    
 }
 

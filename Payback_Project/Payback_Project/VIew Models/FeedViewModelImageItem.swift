@@ -9,20 +9,18 @@ import Foundation
 
 class FeedViewModelImageItem: FeedViewModelItem {
     var headline: String
-    
     var coordinator : MainCoordinator?
-    
     var score: Int
     var data: String
     var subline: String?
     
     lazy var selected: (_ item: FeedViewModelItem) -> Void = { [weak self] item in
-        self?.coordinator?.showDetail(item: item)
         
+        guard let strongSelf = self else { return }
+        strongSelf.coordinator?.showDetail(item: item)
     }
     
     var cellIdentifier: String {
-        
         return FeedImageCell.identifier
     }
     

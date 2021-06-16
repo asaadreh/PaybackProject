@@ -58,15 +58,13 @@ class FeedWebsiteCell: UITableViewCell, BaseTableViewCell {
     }()
     
     var sublineLabel : UILabel?
+    
     private var activityIndicator : UIActivityIndicatorView = {
         var indicator = UIActivityIndicatorView(style: .large)
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.hidesWhenStopped = true
         return indicator
     }()
-    
-    var provider = LPMetadataProvider()
-    private var onRefresh: (() -> Void)?
     
     var item : FeedViewModelItem? {
         didSet {
@@ -77,15 +75,25 @@ class FeedWebsiteCell: UITableViewCell, BaseTableViewCell {
             headlineLabel.text = item.headline
             
             if let url = URL(string: item.data) {
-                
-                addPreview(url: url)
-                
+                if let meta = item.meta {
+                    print("Meta available for \(item.headline)")
+                    websitePreview.metadata = meta
+                    websitePreview.isHidden = false
+                }
+                else {
+                    print("Making call for \(item.headline)")
+                    addPreview(url: url)
+                }
             }
             if let subline = item.subline {
                 addSublineLabel(subline: subline)
             }
         }
     }
+    
+    var provider = LPMetadataProvider()
+    private var onRefresh: (() -> Void)?
+    private let metaCache = MetaCache()
     
     
     // initializer and helper functions
@@ -163,18 +171,27 @@ class FeedWebsiteCell: UITableViewCell, BaseTableViewCell {
     func addPreview(url: URL){
         provider = LPMetadataProvider()
         activityIndicator.startAnimating()
+ 
+        
         provider.startFetchingMetadata(for: url) { meta, err in
-            
-            guard let data = meta,
-                  err == nil else {
-                print("Link Presentation error", err?.localizedDescription ?? "Some Error")
-                return
-            }
             DispatchQueue.main.async { [weak self] in
-                self?.activityIndicator.stopAnimating()
-                self?.websitePreview.metadata = data
-                self?.websitePreview.isHidden = false
-                self?.onRefresh?()
+                guard let strongSelf = self else {
+                    print("Webview error")
+                    return
+                }
+                strongSelf.activityIndicator.stopAnimating()
+                guard let data = meta,
+                      err == nil else {
+                    print("Link Presentation error", err?.localizedDescription ?? "Some Error")
+                    return
+                }
+                strongSelf.websitePreview.metadata = data
+                strongSelf.websitePreview.isHidden = false
+                
+                if let vm = strongSelf.item as? FeedViewModelWebsiteItem {
+                    print("Saving meta for \(vm.headline)")
+                    vm.meta = data
+                }
             }
         }
     }

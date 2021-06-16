@@ -8,8 +8,12 @@
 import Foundation
 
 class PersistenceLayer: FeedServiceProtocol {
-    
+
     var nextHandler : FeedServiceProtocol?
+    
+    required init(nextHandler: FeedServiceProtocol?) {
+        self.nextHandler = nextHandler
+    }
     
     func fetchFeed(completion: @escaping (FeedResult)) {
         
@@ -43,9 +47,5 @@ class PersistenceLayer: FeedServiceProtocol {
             fatalError("Unable to encode transformers data.")
         }
         defaults.set(savedData,forKey: Keys.feed)
-    }
-    
-    required init(nextHandler: FeedServiceProtocol?) {
-        self.nextHandler = nextHandler
     }
 }

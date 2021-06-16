@@ -9,11 +9,12 @@ import UIKit
 
 class FeedImageCell: UITableViewCell, BaseTableViewCell {
     
+    // declared attributes
     
     let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.spacing = 0
+        stackView.spacing = 10
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .fillProportionally
@@ -50,29 +51,67 @@ class FeedImageCell: UITableViewCell, BaseTableViewCell {
         iv.image = AppImages.loadingImage
         return iv
     }()
-    
-    func refresh(_ handler: @escaping () -> Void) {
-        
-    }
-    
+
     var item : FeedViewModelItem? {
         didSet {
             guard let item = item as? FeedViewModelImageItem else {
                 return
             }
-            
             headlineLabel.text = item.headline
-            
             if let url = URL(string: item.data) {
-                
                 imageItemImageView.kf.setImage(with: url, placeholder: AppImages.noImage)
-                
             }
             if let subline = item.subline {
                 addSublineLabel(subline: subline)
             }
-            
         }
+    }
+    
+    static var nib: UINib {
+        return UINib(nibName: identifier, bundle: nil)
+    }
+    
+    static var identifier: String {
+        return String(describing: self)
+    }
+    
+    func refresh(_ handler: @escaping () -> Void) {
+        
+    }
+    
+    // initializer and helper funtions
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .default, reuseIdentifier: reuseIdentifier)
+
+        setupViews()
+    }
+    
+    
+    func setupViews() {
+        
+        contentView.addSubview(stackView)
+        stackView.addArrangedSubview(headlineLabel)
+        stackView.addArrangedSubview(imageItemImageView)
+        
+        
+        let bottomConstraint = stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+        bottomConstraint.priority = UILayoutPriority(749)
+        
+        NSLayoutConstraint.activate([
+            stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20),
+            bottomConstraint,
+            imageItemImageView.widthAnchor.constraint(equalTo: stackView.safeAreaLayoutGuide.widthAnchor, constant: -50),
+            imageItemImageView.heightAnchor.constraint(equalToConstant: 200),
+            
+            headlineLabel.heightAnchor.constraint(equalToConstant: 25)
+        ])
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func addSublineLabel(subline: String) {
@@ -90,48 +129,6 @@ class FeedImageCell: UITableViewCell, BaseTableViewCell {
             sublineLabel?.text = subline
         }
         
-    }
-
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .default, reuseIdentifier: reuseIdentifier)
-
-        contentView.addSubview(stackView)
-        
-        stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
-        stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
-        stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
-        let bottomConstraint = stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
-        bottomConstraint.priority = UILayoutPriority(rawValue: 749)
-        bottomConstraint.isActive = true
-
-
-        stackView.addArrangedSubview(headlineLabel)
-        stackView.addArrangedSubview(imageItemImageView)
-        
-        NSLayoutConstraint.activate([
-            imageItemImageView.widthAnchor.constraint(equalToConstant: 200),
-            imageItemImageView.heightAnchor.constraint(equalToConstant: 200),
-
-            headlineLabel.heightAnchor.constraint(equalToConstant: 25)
-                    ])
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-//        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20))
-    }
-    
-    static var nib: UINib {
-        return UINib(nibName: identifier, bundle: nil)
-    }
-    
-    static var identifier: String {
-        return String(describing: self)
     }
     
     override func prepareForReuse() {

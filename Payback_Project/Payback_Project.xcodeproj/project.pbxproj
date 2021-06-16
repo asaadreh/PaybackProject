@@ -165,7 +165,6 @@
 			isa = PBXGroup;
 			children = (
 				743384CD2677B65C000CC722 /* FeedCache.swift */,
-				743384D32678AEB5000CC722 /* PersistenceLayer.swift */,
 			);
 			path = Cache;
 			sourceTree = "<group>";
@@ -195,7 +194,7 @@
 		7479D2B7266F79C3005619B9 /* Payback_Project */ = {
 			isa = PBXGroup;
 			children = (
-				743384CC2677B64E000CC722 /* Cache */,
+				74FA7E6426794C2800F6E26A /* PersistenceLayer */,
 				7479D2FE266F9973005619B9 /* VIew Models */,
 				7479D2F5266F82AE005619B9 /* Models */,
 				7479D2F0266F7D6D005619B9 /* Network Layer */,
@@ -276,8 +275,6 @@
 			children = (
 				7479D2FA266F9955005619B9 /* MockData.swift */,
 				743384D52678D741000CC722 /* FeedService.swift */,
-				743384CF2677F747000CC722 /* EndOfChain.swift */,
-				743384D12677F7B8000CC722 /* FeedServiceChain.swift */,
 			);
 			path = "Network Layer";
 			sourceTree = "<group>";
@@ -302,6 +299,25 @@
 				7479D317266FA2A6005619B9 /* FeedViewModel.swift */,
 			);
 			path = "VIew Models";
+			sourceTree = "<group>";
+		};
+		74FA7E6426794C2800F6E26A /* PersistenceLayer */ = {
+			isa = PBXGroup;
+			children = (
+				74FA7E6526794C5A00F6E26A /* ServiceChain */,
+				743384CC2677B64E000CC722 /* Cache */,
+				743384D32678AEB5000CC722 /* PersistenceLayer.swift */,
+			);
+			path = PersistenceLayer;
+			sourceTree = "<group>";
+		};
+		74FA7E6526794C5A00F6E26A /* ServiceChain */ = {
+			isa = PBXGroup;
+			children = (
+				743384CF2677F747000CC722 /* EndOfChain.swift */,
+				743384D12677F7B8000CC722 /* FeedServiceChain.swift */,
+			);
+			path = ServiceChain;
 			sourceTree = "<group>";
 		};
 		96BAB992B342432BABD8FB80 /* Pods */ = {

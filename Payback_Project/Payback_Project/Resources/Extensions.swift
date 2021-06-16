@@ -12,7 +12,7 @@ import AVKit
 extension AVAsset {
 
     func generateThumbnail(completion: @escaping (UIImage?) -> Void) {
-        DispatchQueue.global().async {
+        DispatchQueue.global(qos: .background).async {
             let imageGenerator = AVAssetImageGenerator(asset: self)
             let time = CMTime(seconds: 0.0, preferredTimescale: 600)
             let times = [NSValue(time: time)]
@@ -84,4 +84,8 @@ extension Date {
         print("Couldn't find days")
         return false
     }
+}
+
+extension Notification.Name {
+    static let feedFetched = Notification.Name("feed_fetched")
 }

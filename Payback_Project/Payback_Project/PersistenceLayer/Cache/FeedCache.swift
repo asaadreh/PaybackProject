@@ -7,24 +7,8 @@
 
 import Foundation
 
-class FeedCache : NSObject, NSDiscardableContent, FeedServiceProtocol {
-    func beginContentAccess() -> Bool {
-        return true
-    }
-    
-    func endContentAccess() {
-        
-    }
-    
-    func discardContentIfPossible() {
-        
-    }
-    
-    func isContentDiscarded() -> Bool {
-        return false
-    }
-    
-    
+class FeedCache : FeedServiceProtocol {
+
     let cache = NSCache<NSString, Feed>()
     private var nextHandler: FeedServiceProtocol?
     
@@ -34,9 +18,7 @@ class FeedCache : NSObject, NSDiscardableContent, FeedServiceProtocol {
 
     
     func fetchFeed(completion: @escaping (FeedResult)) {
-        print("Fetching from cache")
         if let fetchedFeed = cache.object(forKey: Keys.feed as NSString) {
-            print("Results fetched from cache")
             nextHandler?.saveFeed(results: fetchedFeed)
             completion(.success(fetchedFeed))
         }
@@ -54,10 +36,22 @@ class FeedCache : NSObject, NSDiscardableContent, FeedServiceProtocol {
     }
     
     func saveFeed(results: Feed) {
-        print("Saving to cache")
         cache.setObject(results, forKey: Keys.feed as NSString)
         nextHandler?.saveFeed(results: results)
     }
 
 }
 
+extension FeedCache: NSDiscardableContent {
+    func beginContentAccess() -> Bool {
+        return true
+    }
+    
+    func endContentAccess() {}
+    
+    func discardContentIfPossible() {}
+    
+    func isContentDiscarded() -> Bool {
+        return false
+    }
+}
