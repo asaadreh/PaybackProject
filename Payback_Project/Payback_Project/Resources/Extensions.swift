@@ -2,7 +2,7 @@
 //  Extensions.swift
 //  Payback_Project
 //
-//  Created by Agha Saad Rehman on 10/06/2021.
+//  Created on 10/06/2021.
 //
 
 import Foundation
@@ -88,4 +88,18 @@ extension Date {
 
 extension Notification.Name {
     static let feedFetched = Notification.Name("feed_fetched")
+}
+
+extension UIImageView {
+    func load(url: URL) {
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
+    }
 }

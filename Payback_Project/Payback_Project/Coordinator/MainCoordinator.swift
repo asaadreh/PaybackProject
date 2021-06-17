@@ -2,7 +2,7 @@
 //  MainCoordinator.swift
 //  Payback_Project
 //
-//  Created by Agha Saad Rehman on 08/06/2021.
+//  Created on 08/06/2021.
 //
 
 import Foundation
@@ -24,12 +24,9 @@ class MainCoordinator : Coordinator {
     }
     
     func start() {
-        let viewModel = FeedViewModel(coordinator: self)
-        //let viewModelWithService = FeedViewModel(coordinator: self, service: service)
-        
-        let vc = FeedViewController(viewModel: viewModel)
-        
-        //vc.coordinator = self
+        //let viewModel = FeedViewModel(coordinator: self)
+        let viewModelWithService = FeedViewModel(coordinator: self, service: service)
+        let vc = FeedViewController(viewModel: viewModelWithService)
         navigationController.pushViewController(vc, animated: false)
     }
     

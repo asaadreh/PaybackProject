@@ -2,10 +2,11 @@
 //  FeedViewModelImageItem.swift
 //  Payback_Project
 //
-//  Created by Agha Saad Rehman on 08/06/2021.
+//  Created on 08/06/2021.
 //
 
 import Foundation
+import UIKit
 
 class FeedViewModelImageItem: FeedViewModelItem {
     var headline: String
@@ -13,6 +14,7 @@ class FeedViewModelImageItem: FeedViewModelItem {
     var score: Int
     var data: String
     var subline: String?
+    var image: UIImage?
     
     lazy var selected: (_ item: FeedViewModelItem) -> Void = { [weak self] item in
         

@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Payback_Project
 //
-//  Created by Agha Saad Rehman on 08/06/2021.
+//  Created on 08/06/2021.
 //
 
 import UIKit

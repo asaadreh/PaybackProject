@@ -2,7 +2,7 @@
 //  FeedWebsiteTableViewCell.swift
 //  Payback_Project
 //
-//  Created by Agha Saad Rehman on 14/06/2021.
+//  Created on 14/06/2021.
 //
 
 import Foundation
@@ -76,12 +76,12 @@ class FeedWebsiteCell: UITableViewCell, BaseTableViewCell {
             
             if let url = URL(string: item.data) {
                 if let meta = item.meta {
-                    print("Meta available for \(item.headline)")
+                    
                     websitePreview.metadata = meta
                     websitePreview.isHidden = false
                 }
                 else {
-                    print("Making call for \(item.headline)")
+                    
                     addPreview(url: url)
                 }
             }
@@ -93,7 +93,6 @@ class FeedWebsiteCell: UITableViewCell, BaseTableViewCell {
     
     var provider = LPMetadataProvider()
     private var onRefresh: (() -> Void)?
-    private let metaCache = MetaCache()
     
     
     // initializer and helper functions

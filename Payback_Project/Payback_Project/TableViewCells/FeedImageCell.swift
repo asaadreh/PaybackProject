@@ -2,7 +2,7 @@
 //  MediaTableViewCell.swift
 //  Payback_Project
 //
-//  Created by Agha Saad Rehman on 13/06/2021.
+//  Created on 13/06/2021.
 //
 
 import UIKit

@@ -2,7 +2,7 @@
 //  BaseTableViewCell.swift
 //  Payback_Project
 //
-//  Created by Agha Saad Rehman on 09/06/2021.
+//  Created on 09/06/2021.
 //
 
 import Foundation

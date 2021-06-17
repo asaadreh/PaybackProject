@@ -2,12 +2,18 @@
 //  EndOfChain.swift
 //  Payback_Project
 //
-//  Created by Agha Saad Rehman on 15/06/2021.
+//  Created on 15/06/2021.
 //
 
 import Foundation
 
 class EndOfChain : FeedServiceProtocol {
+    func setNextHandler(nextHandler: FeedServiceProtocol?) {
+        self.nextHandler = nextHandler
+    }
+    
+    var nextHandler: FeedServiceProtocol?
+    
     func saveFeed(results: Feed) {
         //empty stub
     }

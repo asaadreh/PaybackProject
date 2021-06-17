@@ -2,37 +2,21 @@
 //  FeedService.swift
 //  Payback_Project
 //
-//  Created by Agha Saad Rehman on 12/06/2021.
+//  Created on 12/06/2021.
 //
 
 import Foundation
 
-
-enum FeedError: Error {
-    case noInternet(String)
-    case decodingError
-    case emptyCache
-    case EndOfChain
-    case emptyPersistenceLayer
-}
-
-
-
-typealias FeedResult = (Result<Feed,FeedError>) -> Void
-
-protocol FeedServiceProtocol {
-    func fetchFeed(completion: @escaping (FeedResult))
-    init(nextHandler: FeedServiceProtocol?)
-    func saveFeed(results: Feed)
-}
-
 class FeedServiceAPI: FeedServiceProtocol {
+    var nextHandler: FeedServiceProtocol?
+    
+    func setNextHandler(nextHandler: FeedServiceProtocol?) {
+        self.nextHandler = nextHandler
+    }
+    
     func saveFeed(results: Feed) {
         // empty stub
     }
-    
-    
-    private let nextHandler: FeedServiceProtocol?
     
     required init(nextHandler: FeedServiceProtocol?) {
         self.nextHandler = nextHandler

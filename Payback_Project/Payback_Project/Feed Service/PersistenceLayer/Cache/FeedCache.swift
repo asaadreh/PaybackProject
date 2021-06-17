@@ -2,15 +2,19 @@
 //  FeedCache.swift
 //  Payback_Project
 //
-//  Created by Agha Saad Rehman on 14/06/2021.
+//  Created on 14/06/2021.
 //
 
 import Foundation
 
 class FeedCache : FeedServiceProtocol {
+    func setNextHandler(nextHandler: FeedServiceProtocol?) {
+        self.nextHandler = nextHandler
+    }
+    
 
     let cache = NSCache<NSString, Feed>()
-    private var nextHandler: FeedServiceProtocol?
+    internal var nextHandler: FeedServiceProtocol?
     
     required init(nextHandler: FeedServiceProtocol?) {
         self.nextHandler = nextHandler

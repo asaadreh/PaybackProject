@@ -2,7 +2,7 @@
 //  FeedShoppingListCell.swift
 //  Payback_Project
 //
-//  Created by Agha Saad Rehman on 14/06/2021.
+//  Created on 14/06/2021.
 //
 
 import UIKit

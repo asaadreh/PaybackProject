@@ -2,12 +2,16 @@
 //  PersistenceLayer.swift
 //  Payback_Project
 //
-//  Created by Agha Saad Rehman on 15/06/2021.
+//  Created on 15/06/2021.
 //
 
 import Foundation
 
 class PersistenceLayer: FeedServiceProtocol {
+    func setNextHandler(nextHandler: FeedServiceProtocol?) {
+        self.nextHandler = nextHandler
+    }
+    
 
     var nextHandler : FeedServiceProtocol?
     
